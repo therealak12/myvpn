@@ -185,6 +185,9 @@ func (ut *UDPConnTrack) run() {
 	}
 
 	socksAddr := ut.socksConn.LocalAddr().(*net.TCPAddr)
+	// udpBind is a utility connection.
+	// We write packets to it and the gosocks lib reads packets from it.
+	// The read packets are then sent to the relayAddr received from the SOCKS server.
 	udpBind, err := net.ListenUDP("udp", &net.UDPAddr{
 		IP:   socksAddr.IP,
 		Port: 0,
